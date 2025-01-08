@@ -106,6 +106,8 @@ client.on(Events.VoiceStateUpdate, async (oldState, newState) => {
     }
 });
 
+// Commenting out for now, will need to modify it after the patch has been put in.
+/*
 client.on(Events.GuildMemberUpdate, async (oldMember, newMember) => {
 	if(oldMember.nickname != newMember.nickname){
 		const guild = await client.guilds.fetch(guildId);
@@ -125,4 +127,4 @@ client.on(Events.GuildMemberUpdate, async (oldMember, newMember) => {
 			await createUsers(chat, guild);
 		}
 	}
-});
+});*/
