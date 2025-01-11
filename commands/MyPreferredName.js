@@ -31,7 +31,7 @@ module.exports = {
 			
 				saveUserFile(chatList);
 				if(previousName != ""){
-					await interaction.channel.send(`What's this? ${previousName} is evolving?!`);
+					await interaction.channel.send(`What's this? REDACTED is evolving?!`);
 					await interaction.channel.send(`Congratulations! Your REDACTED evolved into ${chatList[user.id].preferredName}!`);
 				}
 				else{

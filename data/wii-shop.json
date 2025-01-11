@@ -1,0 +1,44 @@
+{
+	"purchasable":[  	
+		{
+			"name": "1/1",
+			"cost": 250,
+			"uid": "",
+			"altName": "soundboard"
+		},
+		{
+			"name": "Ravioli-Ravioli",
+			"cost": 1000000,
+			"uid": "",
+			"altName":"nicknameNuke"
+		},
+		{
+			"name": "Text To Shitpost",
+			"cost": 250,
+			"uid": "",
+			"altName":"textToSpeech"
+		},
+		{
+			"name": "Weak, But Allowed",
+			"cost": 10000,
+			"uid": "",
+			"altName":"selfNicknameChange"
+		},
+		{
+			"name": "You Get One As A Treat",
+			"cost": 10000,
+			"uid": "",
+			"altName":"onePlanningChatMeme"
+		}
+	],
+	"unlockable":[
+		{
+			"name": "Mayor of Sweedoville",
+			"uid": ""
+		},
+		{
+			"name": "Sweedoville Millionaire",
+			"uid": ""
+		}
+	]
+}
