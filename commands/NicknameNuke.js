@@ -14,22 +14,23 @@ module.exports = {
 		await interaction.deferReply();
 		await interaction.deleteReply();
 		
-		let bought = true
-		let chatList;
+		let bought = false;
 	
-		let ravioliRavioliKeeper;
+		
 		
 		let ravioliRavioliName;
 		
-		
+		let chatList = await getUsers();
+		let ravioliRavioliKeeper = chatList[ravioliRavioliKeeperUID].preferredName != "" ? chatList[ravioliRavioliKeeperUID].preferredName : chatList[ravioliRavioliKeeperUID].profileName;
 		if(interaction.user.id != ravioliRavioliKeeperUID){
 			bought = await buyItem(interaction.user.id, "Ravioli-Ravioli", false);
 			chatList = await getUsers();
 			ravioliRavioliName = chatList[interaction.user.id].preferredName != "" ? chatList[interaction.user.id].preferredName : chatList[interaction.user.id].profileName;
 		}
 		else{
-			 chatList = await getUsers();
-			 ravioliRavioliKeeper = chatList[ravioliRavioliKeeperUID].preferredName != "" ? chatList[ravioliRavioliKeeperUID].preferredName : chatList[ravioliRavioliKeeperUID].profileName;
+			 ravioliRavioliName = ravioliRavioliKeeper;
+			 
+			 bought = true;
 		}
 		
 		const memberUIDs = Object.keys(chatList);
@@ -46,7 +47,7 @@ module.exports = {
 				});
 				
 				if(chatList[member].isAdmin){
-					await interaction.channel.send(`<@${member}>, ${ravioliRavioliName} wants you to change your nickname back to ${chatList[member].profileName}`);
+					await interaction.channel.send(`<@${member}>, ${ravioliRavioliName} wants you to reset your nickname back to ${chatList[member].profileName}`);
 				}
 				else{
 					await interaction.guild.members.edit(member, {nick: chatList[member].profileName});

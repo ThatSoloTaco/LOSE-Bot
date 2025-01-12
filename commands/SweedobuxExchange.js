@@ -24,14 +24,14 @@ module.exports = {
 			let convertAmount = interaction.options.get('lose-bucks').value;
 			
 			if(chatList[user.id] != null){
-				if(convertAmount <= chatList[user.id].LOSEBucks){
+				if(convertAmount <= chatList[user.id].LOSEBucks && convertAmount > 0){
 					if(!chatList[user.id].Sweedobux){
 						chatList[user.id].Sweedobux = 0;
 					}
 					chatList[user.id].Sweedobux += convertAmount * 1600;
 					chatList[user.id].LOSEBucks -= convertAmount;
+					saveUserFile(chatList);
 				}
-				saveUserFile(chatList);
 			}
 			
 		}
