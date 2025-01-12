@@ -134,15 +134,19 @@ client.on(Events.InteractionCreate, async interaction => {
 								adapterCreator: guild.voiceAdapterCreator,
 							});
 							
-							const player = createAudioPlayer();
+							
+							let subscription;
+							let player = createAudioPlayer();
 							let soundName = interaction.options.get('name');
 							let soundNameValue = soundName.value;
-							
-							const resource = createAudioResource(`${soundDirectory}/${soundNameValue}.ogg`);
-							player.play(resource);
-							connection.subscribe(player);
+							subscription = connection.subscribe(player);
+							const resource = createAudioResource(path.join(__dirname,`./${soundDirectory}/${soundNameValue}.ogg`));
+							if(resource){
+								player.play(resource);
+							}
 							
 							player.on(AudioPlayerStatus.Idle, () => {
+								subscription.unsubscribe();
 								player.stop();
 								connection.destroy();
 							});
@@ -218,7 +222,7 @@ client.on(Events.VoiceStateUpdate, async (oldState, newState) => {
 			});
 		}
 		else{
-			await calcLoseBucks(user, true);
+			await calcLoseBucks([user], true);
 			let rolesToGive = await getRoles(user.id);
 			await addRoles(user.id, rolesToGive);
 		}
@@ -239,7 +243,7 @@ client.on(Events.MessageCreate, async (message) =>{
 			const bought = await buyItem(message.author.id, "Text To Shitpost", true);
 			const rolesToRemove = await canStillAfford(message.author.id);
 			if(!bought){
-				await interaction.channel.send(`LOSE Bucks?! In this economy?! It's okay, ${interaction.user}, it happens to the best of us.`);
+				await message.channel.send(`LOSE Bucks?! In this economy?! It's okay, ${message.user}, it happens to the best of us.`);
 			}
 			else{
 				await removeRoles(user.id, rolesToRemove);
