@@ -18,24 +18,6 @@ for (const folder of commandFolders) {
 	const commandFiles = fs.readdirSync(commandsPath).filter(file => file.endsWith('.js'));
 	// Grab the SlashCommandBuilder#toJSON() output of each command's data for deployment
 	for (const file of commandFiles) {
-		if(file === `stickers.js`){
-			const picsPath = path.join(__dirname, 'memes');
-			const picsFiles = fs.readdirSync(picsPath).filter(file => file.endsWith('.png'));
-			for (const pic of picsFiles){
-				const picSplit = pic.split('.');
-				commands.push({
-					data: new SlashCommandBuilder()
-						.setName(picSplit[0])
-						.setDescription(`Posts the ${picSplit[0]} sticker`),
-					async execute(interaction) {
-						await interaction.deferReply();
-						await interaction.deleteReply();
-						await interaction.channel.send({ files: [{ attachment: `${memesFile}/memes/${pic}` }] });
-					}
-				}.data.toJSON());
-			}
-		}
-		else{
 			const filePath = path.join(commandsPath, file);
 			const command = require(filePath);
 			if ('data' in command && 'execute' in command) {
@@ -43,7 +25,7 @@ for (const folder of commandFolders) {
 			} else {
 				console.log(`[WARNING] The command at ${filePath} is missing a required "data" or "execute" property.`);
 			}
-		}
+		
 	}
 //}
 

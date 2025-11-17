@@ -3,7 +3,7 @@ const fs = require('node:fs');
 const path = require('node:path');
 const util = require('util');
 const { getUsers } = require("../lib/Users.js");
-const { getSwatchTime } = require("../lib/LOSEBucks.js");
+const { getSwatchTime } = require("../lib/WiiShop.js");
 
 module.exports = {
 	data: new SlashCommandBuilder()

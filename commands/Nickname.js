@@ -3,6 +3,7 @@ const fs = require('node:fs');
 const path = require('node:path');
 const util = require('util');
 const { getUsers, saveUserFile } = require("../lib/Users.js");
+const { buyItem } = require("../lib/WiiShop.js");
 
 module.exports = {
 	data: new SlashCommandBuilder()
@@ -37,15 +38,21 @@ module.exports = {
 				user = interaction.user;
 			}
 			
+			const userPreferredName = chatList[user.id].preferredName != "" ? chatList[user.id].preferredName : user.username;
+			const commandUserPreferredName  = chatList[interaction.user.id].preferredName != "" ? chatList[interaction.user.id].preferredName : interaction.user.username;
 			
 			if(user.username === interaction.user.username){
-				if(!chatList[user.id].isAdmin) {
-					await interaction.channel.send(`Wow... Can't believe, ${user.username}, tried to change their own nickname to ${nicknameValue}. That's not very "pog champ" of you.`);
+				const bought = await buyItem(user.id, "Weak, But Allowed", false);
+				chatList = await getUsers();
+				if(!bought){
+					await interaction.channel.send(`Wow... Can't believe, ${userPreferredName}, tried to change their own nickname to ${nicknameValue} without the LOSE Bucks. That's not very "pog champ" of you.`);
 				}
 				else{
-					const nicknameList = chatList[user.id].nicknames.map(n => n.nickname);
-					if(!nicknameList.includes(nicknameValue)){
-						await interaction.channel.send(`Uh-oh ${user.username}, used their super special admin permissions to change their name to ${nicknameValue}. Cringe, L+Ratio+Weak, not very poggies.`);
+					if(chatList[user.id].isAdmin){
+					await interaction.channel.send(`${commandUserPreferredName} has changed their own nickname to ${nicknameValue}, and spent some amount of time in voice chat to do it.`);
+					}
+					else{
+						await interaction.guild.members.edit(user.id, {nick:nicknameValue});
 					}
 				}
 			}
@@ -56,9 +63,10 @@ module.exports = {
 					date: dateObj.getTime(),
 					changedBy: interaction.user.username
 				});
+				
 				saveUserFile(chatList);
 				if(chatList[user.id].isAdmin){
-					await interaction.channel.send(`${user}, ${interaction.user.username} wants you to change your name to ${nicknameValue}`);
+					await interaction.channel.send(`${user}, ${commandUserPreferredName} wants you to change your name to ${nicknameValue}`);
 				}
 				else{
 					await interaction.guild.members.edit(user.id, {nick:nicknameValue});
